@@ -62,7 +62,7 @@ async def join(ctx):
         await ctx.send("get in a voice channel jittleyang")
 
 #makes the bot leave voice chat if it is in one
-@client.command()
+@client.command() 
 async def leave(ctx):
     if(ctx.voice_client):
         await ctx.guild.voice_client.disconnect()
@@ -84,8 +84,8 @@ async def play(ctx, * , search):
         await voice_channel.connect()
     voice = ctx.guild.voice_client
     async with ctx.typing():
-        with yt.YoutubeDL(YDL_OPTIONS) as ydl:
-            info = ydl.extract_info(search, download = False)
+        with yt.YoutubeDL(YDL_OPTIONS) as ydl: 
+            info = ydl.extract_info(search, download = False) #grabs the info from yt
             url = info['url']
             title = info['title']
         voice.play(discord.FFmpegPCMAudio(url))
@@ -117,7 +117,7 @@ async def play(ctx, * , search):
         
     #this plays the next song that is queued
     @client.command()
-    async def play_next(ctx):
+    async def next(ctx):
         if queue:
             song = queue.popleft()
             voice.play(discord.FFmpegPCMAudio(song['url']))
