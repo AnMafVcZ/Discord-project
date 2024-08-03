@@ -125,7 +125,7 @@ async def play(ctx, * , search):
         elif not ctx.voice_client.is_playing():
             await ctx.send("play some space panda will ya")
 
-    #this th the skip command
+    #this th the skip commandes
     @client.command()
     async def skip(ctx):
         if ctx.voice_client and ctx.voice_client.is_playing():
