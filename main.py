@@ -4,6 +4,7 @@ import discord
 import os
 from dotenv import load_dotenv
 from discord.ext import commands
+#queue data structure
 from collections import deque 
 
 #importing dependices of playing yt songs
