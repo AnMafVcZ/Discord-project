@@ -106,6 +106,13 @@ async def play(ctx, * , search):
             title = info['title']
         queue.append(info)
         await ctx.send(f'Added to queue: **{title}**')
+        if not ctx.voice_client.is_playing():
+            if queue:
+                song = queue.popleft()
+                voice.play(discord.FFmpegPCMAudio(song['url']))
+                await ctx.send(f'Now Playing: **{song['title']}**')
+            else:
+                await ctx.send('There are no more songs left to play')
         
     #this plays the next song that is queued
     @client.command()
