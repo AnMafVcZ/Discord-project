@@ -138,6 +138,14 @@ async def play(ctx, * , search):
             else:
                 await ctx.send('There are no more songs left to play')
 
+
+    @client.command()
+    async def stop(ctx):
+        if ctx.voice_client and ctx.voice_client.is_playing():
+            ctx.voice_client.stop()
+            await ctx.send("move on to better things")
+
+            
 client.run(os.getenv('DISCORD_TOKEN'))
 
 
