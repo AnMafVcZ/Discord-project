@@ -75,10 +75,12 @@ async def __init__(self, client):
         self.client = client
         self.queue = []
 
+trim = False
+
 @client.command(pass_context=True)
 async def play(ctx, * , search):
     voice_channel = ctx.author.voice.channel if ctx.author.voice else None
-    trim = False
+    
     if not voice_channel:
         return await ctx.send("get in the call dumbass")
     if not ctx.voice_client:
@@ -94,6 +96,7 @@ async def play(ctx, * , search):
     
     if not ctx.voice_client.is_playing():
         if trim:
+            print('george')
             voice.play(discord.FFmpegPCMAudio(song['url']))
         elif queue:
             song = queue.popleft()
@@ -151,10 +154,12 @@ async def play(ctx, * , search):
 
     @client.command()
     async def loop(ctx):
-        lop = not trim
-        if lop:
+        global trim 
+        trim = not trim
+        print('fanum')
+        if trim:
             await ctx.send(f'Now looping lee: **{title}**')
-            
+            print('hacker')
 
 
 
