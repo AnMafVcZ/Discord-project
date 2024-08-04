@@ -22,6 +22,7 @@ intents.voice_states = True
 #call the bot when ! is used
 client = commands.Bot(command_prefix ='!', intents=intents) 
 queue = deque([])
+
 #bot is ready to receive commands
 @client.event
 async def on_ready(): 
@@ -77,7 +78,7 @@ async def __init__(self, client):
 @client.command(pass_context=True)
 async def play(ctx, * , search):
     voice_channel = ctx.author.voice.channel if ctx.author.voice else None
-    
+    trim = False
     if not voice_channel:
         return await ctx.send("get in the call dumbass")
     if not ctx.voice_client:
@@ -92,7 +93,9 @@ async def play(ctx, * , search):
         await ctx.send(f'Now Playing: **{title}**')
     
     if not ctx.voice_client.is_playing():
-        if queue:
+        if trim:
+            voice.play(discord.FFmpegPCMAudio(song['url']))
+        elif queue:
             song = queue.popleft()
             voice.play(discord.FFmpegPCMAudio(song['url']))
             await ctx.send(f'Now Playing: **{song['title']}**')
@@ -145,7 +148,16 @@ async def play(ctx, * , search):
             ctx.voice_client.stop()
             await ctx.send("move on to better things")
 
+
+    @client.command()
+    async def loop(ctx):
+        lop = not trim
+        if lop:
+            await ctx.send(f'Now looping lee: **{title}**')
             
+
+
+
 client.run(os.getenv('DISCORD_TOKEN'))
 
 
