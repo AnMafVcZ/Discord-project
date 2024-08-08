@@ -80,7 +80,6 @@ trim = False
 @client.command(pass_context=True)
 async def play(ctx, * , search):
     voice_channel = ctx.author.voice.channel if ctx.author.voice else None
-    
     if not voice_channel:
         return await ctx.send("get in the call dumbass")
     if not ctx.voice_client:
@@ -94,11 +93,11 @@ async def play(ctx, * , search):
         voice.play(discord.FFmpegPCMAudio(url))
         await ctx.send(f'Now Playing: **{title}**')
     
-    if not ctx.voice_client.is_playing():
-        if trim:
-            print('george')
-            voice.play(discord.FFmpegPCMAudio(song['url']))
-        elif queue:
+    while not ctx.voice_client.is_playing():
+        # if trim:
+        #     print('george')
+        #     voice.play(discord.FFmpegPCMAudio(song['url']))
+        if queue:
             song = queue.popleft()
             voice.play(discord.FFmpegPCMAudio(song['url']))
             await ctx.send(f'Now Playing: **{song['title']}**')
@@ -115,21 +114,32 @@ async def play(ctx, * , search):
         await ctx.send(f'Added to queue: **{title}**')
         if not ctx.voice_client.is_playing():
             if queue:
+                print("fantum")
                 song = queue.popleft()
                 voice.play(discord.FFmpegPCMAudio(song['url']))
                 await ctx.send(f'Now Playing: **{song['title']}**')
             else:
                 await ctx.send('There are no more songs left to play')
         
-    #this plays the next song that is queued
     @client.command()
-    async def next(ctx):
+    async def clear(ctx):
+        if ctx.voice_client:
+            if queue:
+                queue.clear()
+                await ctx.send('Queue Cleared')
+            else:
+                await ctx.send('There is nothing to clear')
+                
+    def getTitle(index):
+            return index['title']
+            
+    
+    @client.command() 
+    async def playlist(ctx):
         if queue:
-            song = queue.popleft()
-            voice.play(discord.FFmpegPCMAudio(song['url']))
-            await ctx.send(f'Now playing **{song['title']}**')
-        elif not ctx.voice_client.is_playing():
-            await ctx.send("play some space panda will ya")
+            await ctx.send(f'{index + 1}. {title}' for index, title in enumerate(map(getTitle , queue)))
+        
+        
 
     #this th the skip command
     @client.command()
@@ -149,20 +159,20 @@ async def play(ctx, * , search):
     async def stop(ctx):
         if ctx.voice_client and ctx.voice_client.is_playing():
             ctx.voice_client.stop()
-            await ctx.send("move on to better things")
-
-
+            await ctx.send("Music stopped")
+        
+            
     @client.command()
     async def loop(ctx):
-        global trim 
-        trim = not trim
+        global trim
         print('fanum')
         if trim:
+            trim = False
+        else:
+            trim = True
             await ctx.send(f'Now looping lee: **{title}**')
             print('hacker')
-
-
-
+                
 client.run(os.getenv('DISCORD_TOKEN'))
 
 
