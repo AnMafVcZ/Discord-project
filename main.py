@@ -26,21 +26,21 @@ queue = deque([])
 #bot is ready to receive commands
 @client.event
 async def on_ready(): 
-    print("Fanum tax the ohio rizzler")
+    print("The Bot the Ready")
     print("---------------------------")
 
 #ctx takes the input from the user
 @client.command()
 async def hello(ctx):
-    await ctx.send("Wop wop wop wop wop ima do my stuff")
+    await ctx.send("Whats up dawg")
 
 @client.command()
 async def goodbye(ctx):
-    await ctx.send("they not like us they not like us")
+    await ctx.send("seeeeyuhhhh")
 
 @client.command()
 async def rick(ctx):
-    await ctx.send("fuck you")
+    await ctx.send("what a distinguished gentleman")
 
 #when an event function detects something it would something else
 @client.event
@@ -60,16 +60,16 @@ async def join(ctx):
         channel = ctx.author.voice.channel
         await channel.connect()
     else:
-        await ctx.send("get in a voice channel jittleyang")
+        await ctx.send("join a voice channel")
 
 #makes the bot leave voice chat if it is in one
 @client.command() 
 async def leave(ctx):
     if(ctx.voice_client):
         await ctx.guild.voice_client.disconnect()
-        await ctx.send("i need to futtulatugan else where fonem")
+        await ctx.send("bot has left the channel")
     else:
-        await ctx.send("i aint even in a voice chat dumbass")
+        await ctx.send("bot is not in a voice channel")
 @client.command()
 async def __init__(self, client):
         self.client = client
@@ -81,7 +81,7 @@ trim = False
 async def play(ctx, * , search):
     voice_channel = ctx.author.voice.channel if ctx.author.voice else None
     if not voice_channel:
-        return await ctx.send("get in the call dumbass")
+        return await ctx.send("join a call first")
     if not ctx.voice_client:
         await voice_channel.connect()
     voice = ctx.guild.voice_client
@@ -146,7 +146,7 @@ async def play(ctx, * , search):
     async def skip(ctx):
         if ctx.voice_client and ctx.voice_client.is_playing():
             ctx.voice_client.stop()
-            await ctx.send("This song is some ass play the next one")
+            await ctx.send("playing the next song")
             if queue:
                 song = queue.popleft()
                 voice.play(discord.FFmpegPCMAudio(song['url']))
@@ -165,7 +165,7 @@ async def play(ctx, * , search):
     @client.command()
     async def loop(ctx):
         global trim
-        print('fanum')
+        print('here')
         if trim:
             trim = False
         else:
